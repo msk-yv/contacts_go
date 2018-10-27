@@ -1,7 +1,7 @@
-{{ define "write" }}
+{{ define "edit" }}
 
 {{ template "header" }}
-
+{{ range . }}
 <div class="row">
 	<div class="col-xs-4">
         
@@ -26,12 +26,12 @@
 
 	</div>
 	<div class="col-xs-4">
-		{{ if .Id }}
+		
 			<a href="/delete?id={{ .Id }}">Delete</a>
-		{{ end }}
+		
 	</div>
 </div>
-
+{{ end }}
 {{ template "footer" }}
 
 {{ end }}
