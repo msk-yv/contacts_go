@@ -1,0 +1,56 @@
+Разработка производилась на виртуальной машине Xubuntu 18.04.
+Использовался apache2:
+Server version: Apache/2.4.29 (Ubuntu)
+Server built:   2018-10-03T14:41:08
+mysql:
+Server version: 5.7.24-0ubuntu0.18.04.1 (Ubuntu)
+для "проектиования" БД использовался mysql workbench 6.3
+php:
+PHP 7.2.10-0ubuntu0.18.04.1 (cli) (built: Sep 13 2018 13:45:02)
+
+
+
+Настройка ОС и ПО приведены для директории /home/y/stork/contacts и виртуалоного хоста contac.ts. Если вы хотите использовать другую директорию и/или имя хоста меняем соответсвующие части строк на свои. Как минимум придётся заменить 'y' в путях на имя пользователя твоей машины:
+            I. Установка + настройка apache2
+$ sudo apt update
+$ sudo apt install apache2  
+далее добавляем в файл /etc/apache2/apache2.conf следующие строки:
+
+<Directory /home/y/stork/contacts>
+	Options Indexes FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+
+В /etc/apache2/sites-available создаём файл contac.ts.conf следующего содержания:
+
+<VirtualHost *:80>
+    ServerName contac.ts
+    DocumentRoot /home/y/stork/contacts
+</VirtualHost>
+
+В файл /etc/hosts дописываем строчку:
+127.0.0.1   contac.ts
+
+выполняем команды:
+$ sudo a2ensite contac.ts.conf
+$ sudo a2enmod rewrite
+$ sudo a2enmod php7.2 (предварительно проверяем версию установленного php если нужно обновляем '$sudo apt install php' )
+и перезапускаем сервер:
+$ systemctl reload apache2
+            II. Установка + настройка mysql
+$ sudo apt update
+$ sudo apt install mysql-server
+
+Далее проводим "стандартную" настройку mysql. не забываем запомнить пароль от root пользователя. 
+В файл models/database.php в раздел define указываем свои данные для подключения к БД.
+
+Любым доступным импортируем БД из файла 'DB_Dump20181025.sql' в mysql. Я пользовался MySQL workbench - устанавливается центр приложений ОС.
+
+
+Если необходимо  установливаем библиотеку php для работы с mysql запросами 
+sudo apt-get install php-mysql
+sudo phpenmod mysqli
+
+
+
