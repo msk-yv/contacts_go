@@ -4,6 +4,27 @@
 
 <h1>index template</h1>
 
+<div class="wraperSecondTable">
+    <table class="results">
+        <tr>
+            <th>Имя контакта</th>
+            <th>Телефон</th>
+            <th>Электронная почта</th>
+            <th></th>
+            
+        </tr> 
+        {{ range $key, $value := . }}
+        <tr>
+            <td>{{ $value.Name }}</td>
+            <td>{{ $value.Phone }}</td>
+            <td>{{ $value.Email }}</td>
+            <td><a href="/edit?id={{$key}}">Редактировать</a></td>
+            
+        </tr>
+        {{ end }}
+    </table>
+</div>
+
 {{ template "footer" }}
 
 {{ end }}
